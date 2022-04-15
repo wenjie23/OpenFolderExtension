@@ -27,7 +27,7 @@ namespace OpenFolderExtension.CommandCopyForAether
     {
         public const int CommandId = 0x300D;
         private readonly AsyncPackage m_Package;
-        public static readonly Guid CommandSet = new Guid("3D94678C-412C-47E9-A4B9-DEF3BE3AAD1F");
+        public static readonly Guid CommandSet = new Guid("3D94678C-412C-47E9-A4B9-DEF3BE3AAD1E");
 
         public static CopyFilesForAetherItemNode Instance
         {

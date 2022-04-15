@@ -24,8 +24,8 @@ namespace OpenFolderExtension.CommandCopyForAether
         public static void Copy(FileInfo path)
         {
             var parentDir = path.Directory;
-            DirectoryInfo exportDir = parentDir.CreateSubdirectory("export");
             File.Copy(path.FullName, path.FullName + ".copied");
+            DirectoryInfo exportDir = parentDir.CreateSubdirectory("export");
         }
     }
 }

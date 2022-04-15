@@ -17,19 +17,20 @@ using System;
 using System.ComponentModel.Design;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using EnvDTE80;
 using EnvDTE;
+using EnvDTE80;
 using System.IO;
 
 namespace OpenFolderExtension.CommandsPowershell
 {
-    internal sealed class OpenContainingFolderItemNode
+
+    internal sealed class OpenOutDirectoryProjectNode
     {
-        public const int CommandId = 0x3005;
+        public const int CommandId = 0x3008;
         private readonly AsyncPackage m_Package;
         public static readonly Guid CommandSet = new Guid("3D94678C-412C-47E9-A4B9-DEF3BE3AAD1E");
 
-        private OpenContainingFolderItemNode(AsyncPackage package)
+        private OpenOutDirectoryProjectNode(AsyncPackage package)
         {
             this.m_Package = package ?? throw new ArgumentNullException(nameof(package));
 
@@ -41,7 +42,7 @@ namespace OpenFolderExtension.CommandsPowershell
             }
         }
 
-        public static OpenContainingFolderItemNode Instance
+        public static OpenOutDirectoryProjectNode Instance
         {
             get;
             private set;
@@ -51,7 +52,7 @@ namespace OpenFolderExtension.CommandsPowershell
 
         public static void Initialize(AsyncPackage package)
         {
-            Instance = new OpenContainingFolderItemNode(package);
+            Instance = new OpenOutDirectoryProjectNode(package);
         }
 
         private void MenuItemCallback(object sender, EventArgs e)
@@ -64,32 +65,17 @@ namespace OpenFolderExtension.CommandsPowershell
                 return;
             }
 
-            FileInfo path = null;
-            DirectoryInfo solutionPath = new DirectoryInfo(Path.GetPathRoot(Environment.SystemDirectory));
-            try
+            var solutionPath = ProjectSettings.GetSolutionPath((ServiceProvider.GetService(typeof(SDTE)) as DTE2)?.Solution);
+            foreach (SelectedItem selectedItem in selectedItems)
             {
-                var solutionFile = ProjectSettings.GetSolutionPath((ServiceProvider.GetService(typeof(SDTE)) as DTE2)?.Solution);
-                solutionPath = solutionFile.Directory;
-
-                foreach (SelectedItem selectedItem in selectedItems)
+                if (selectedItem.Project == null)
                 {
-                    path = ProjectSettings.GetSelectedItemPath(selectedItem);
+                    continue;
                 }
-            }
-            catch (FileNotFoundException)
-            {
-                path = ProjectSettings.LookingForSelectedItem(this.ServiceProvider);
-            }
-            CopyRelatedFiles(path);
 
-            Powershell.Show(path, solutionPath);
-        }
-
-        private void CopyRelatedFiles(FileInfo selectedPath)
-        {
-            var parentDir = selectedPath.Directory;
-            File.Copy(selectedPath.FullName, selectedPath.FullName + ".copied");
-            DirectoryInfo exportDir = parentDir.CreateSubdirectory("export");
+                var path = ProjectSettings.GetOutputFileName(selectedItem.Project);
+                Powershell.Show(path, solutionPath.Directory);
+            }
         }
     }
 }
