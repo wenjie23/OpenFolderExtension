@@ -34,6 +34,8 @@ namespace OpenFolderExtension
         protected override System.Threading.Tasks.Task InitializeAsync(
             CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
+            CommandCopyForAether.CopyFilesForAetherItemNode.Initialize(this);
+
             Commands.OpenContainingFolderItemNode.Initialize(this);
             Commands.OpenContainingFolderProjectNode.Initialize(this);
             Commands.OpenContainingFolderSolutionNode.Initialize(this);

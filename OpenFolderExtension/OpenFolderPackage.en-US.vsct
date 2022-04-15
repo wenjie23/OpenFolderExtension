@@ -41,16 +41,28 @@ limitations under the License.
         <Parent guid="guidOpenFolderCommandSet" id="OpenFolderSubMenuProjectNode" />
       </Group>
     </Groups>
+	  
+	  
     
     <Buttons>
-      <Button guid="guidOpenFolderCommandSet" id="Commands.OpenFolderButtonItemNode" priority="0x0001" type="Button">
+		<Button guid="guidOpenFolderCommandSet" id="Commands.OpenFolderButtonItemNode" priority="0x0001" type="Button">
+			<Parent guid="guidOpenFolderCommandSet" id="OpenFolderSubMenuGroupItemNode" />
+			<Icon guid="ImageCatalogGuid" id="OpenFolder" />
+			<CommandFlag>CommandWellOnly</CommandFlag>
+			<CommandFlag>IconAndText</CommandFlag>
+			<CommandFlag>IconIsMoniker</CommandFlag>
+			<Strings>
+				<ButtonText>Open containing folder in file explorer</ButtonText>
+			</Strings>
+		</Button>
+      <Button guid="guidOpenFolderCommandSet" id="CommandCopyForAether.CopyFilesForAetherItemNode" priority="0x0001" type="Button">
         <Parent guid="guidOpenFolderCommandSet" id="OpenFolderSubMenuGroupItemNode" />
         <Icon guid="ImageCatalogGuid" id="OpenFolder" />
         <CommandFlag>CommandWellOnly</CommandFlag>
         <CommandFlag>IconAndText</CommandFlag>
         <CommandFlag>IconIsMoniker</CommandFlag>
         <Strings>
-          <ButtonText>Open containing folder in file explorer</ButtonText>
+          <ButtonText>Copy files for Aether</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidOpenFolderCommandSet" id="Commands.OpenFolderButtonSolutionNode" priority="0x0002" type="Button">
@@ -216,6 +228,8 @@ limitations under the License.
       <IDSymbol name="CommandsCmd.OpenFolderButtonSolutionNode" value="0x300A" />
       <IDSymbol name="CommandsCmd.OpenFolderButtonProjectNode" value="0x300B" />
       <IDSymbol name="CommandsCmd.OpenOutDirectoryButtonProjectNode" value="0x300C" />
+
+		<IDSymbol name="CommandCopyForAether.CopyFilesForAetherItemNode" value="0x300D" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>
